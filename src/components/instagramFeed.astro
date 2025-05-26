@@ -1,0 +1,39 @@
+---
+// InstagramFeedFouita.astro
+// No necesita lógica server – solo markup
+---
+
+<section id="instagram" class="py-12 bg-black text-white">
+
+
+<style>
+@keyframes neonPulse {
+  0%,100% { color:#0ea5e9; text-shadow:0 0 8px #0ea5e9; }
+  25%     { color:#22d3ee; text-shadow:0 0 8px #22d3ee; }
+  50%     { color:#a855f7; text-shadow:0 0 8px #a855f7; }
+  75%     { color:#f43f5e; text-shadow:0 0 8px #f43f5e; }
+}
+.neon {
+  animation: neonPulse 5s linear infinite;
+}
+</style>
+
+<h2
+  class="neon text-center font-heading
+         text-2xl sm:text-3xl md:text-4xl lg:text-5xl
+         tracking-wide leading-tight mb-12">
+  FOLLOW&nbsp;ME&nbsp;ON&nbsp;INSTAGRAM
+</h2>
+
+
+
+  <!-- Widget container (Fouita inyecta el contenido aquí) -->
+  <div data-key="Dark Instagram Feed" class="ft" id="ftsz8ldys"></div>
+
+    <link rel="preconnect" href="https://wdg.fouita.com" crossorigin>
+  <!-- Carga del script del widget -->
+  <script
+    src="https://wdg.fouita.com/widgets/0x24e28c.js"
+    defer
+  ></script>
+</section>

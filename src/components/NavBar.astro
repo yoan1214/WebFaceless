@@ -1,0 +1,32 @@
+---
+// Instala primero: `npm i react-icons`
+import {
+  FaInstagram, FaTiktok, FaYoutube, FaSoundcloud, FaWhatsapp, FaDropbox
+} from 'react-icons/fa6';
+import { FiMail } from 'react-icons/fi';
+
+const social = [
+  { Comp: FaInstagram,  url: 'https://www.instagram.com/chechuisfaceless/' },
+  { Comp: FaTiktok,     url: 'https://www.tiktok.com/@chechuisfaceless'   },
+  { Comp: FaYoutube,    url: 'https://www.youtube.com/@chechuisfaceless'  },
+  { Comp: FaSoundcloud, url: 'https://soundcloud.com/chechuisfaceless'    },
+  { Comp: FiMail,       url: 'mailto:djfaceless.music@gmail.com'          },
+  { Comp: FaWhatsapp,   url: 'https://wa.me/34609875373'                  },
+  { Comp: FaDropbox,    url: 'https://www.dropbox.com/scl/fo/qsqnfajth718tmobf0sq3/h?rlkey=l5hh3yfzpv17scixjpdirw2y6&dl=0' },
+];
+---
+<nav class="fixed inset-x-0 top-0 z-50 bg-brand-dark/80 backdrop-blur p-4">
+  <div class="container mx-auto flex flex-wrap items-center justify-center gap-y-2 sm:justify-between">
+    <!-- Iconos visibles sólo en desktop -->
+    <div class="hidden md:flex gap-3 order-2 md:order-1">
+      {social.map(({ Comp, url }) => (
+        <a href={url} target="_blank" rel="noopener" aria-label={Comp.name}
+           class="p-2 text-brand-light hover:text-brand-white transition">
+          <Comp size={22} />
+        </a>
+      ))}
+    </div>
+
+    <span class="order-1 sm:order-2 w-full sm:w-auto text-center font-heading tracking-wider text-2xl text-brand-white">FACELESS</span>
+  </div>
+</nav>

@@ -1,0 +1,30 @@
+---
+import bioBg from '../assets/images/_YEN2711.jpg'; // ImageMetadata
+---
+<section
+  id="bio"
+  class="relative h-screen md:min-h-[100vh] bg-center bg-cover"
+  style={`background-image: url('${bioBg.src ?? bioBg}');`}>
+
+  <!-- Overlay negro-azulado (puedes ajustar opacidad / color) -->
+  <div class="absolute inset-0 bg-brand-dark/70"></div>
+
+  <!-- Texto centrado vertical, con máximo 650 px de ancho -->
+  <div class="relative z-10 container mx-auto flex items-center h-full px-4">
+    <div class="max-w-prose text-brand-white">
+      <h2 class="font-heading text-4xl md:text-5xl mb-6 leading-tight">
+        FACELESS
+      </h2>
+
+      <p class="leading-relaxed text-lg md:text-xl">
+       Los más de 8 años de trayectoria posicionan a FACELESS como uno de los DJs más consolidados y bien posicionados de la región asturiana. 
+
+En sus sesiones mezcla los ritmos urbanos más novedosos con la electrónica más potente haciendo que sus sets sean unicos. Además, su versatilidad permite que se adapte perfectamente al público de cada sala.
+
+Todo ellos le ha llevado a compartir cabina con grandes artistas de la talla de Chimeno, David Dancos, Anthony Godfather, Robert Morr, Dj Totote y Juanjo Martin entre otros.
+
+En 2023 comienza su andadura como promotor de la mano de Fraternity's House, su propia fiesta, en la que se juntan los mejores djs nacionales con un show propio para que cada evento sea un experiencia única
+      </p>
+    </div>
+  </div>
+</section>

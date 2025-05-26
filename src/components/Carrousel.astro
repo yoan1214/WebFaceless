@@ -1,0 +1,169 @@
+---
+// imports idénticos a los tuyos
+import { Image } from 'astro:assets';
+
+import img01 from '../assets/images/1.jpg';
+import img02 from '../assets/images/Chechuisfaceless Gabanna 19 12 -68.jpg';
+import img03 from '../assets/images/19.jpg';
+import img04 from '../assets/images/21.jpg';
+import img05 from '../assets/images/30.jpg';
+import img06 from '../assets/images/ing-5.jpg';
+import img07 from '../assets/images/Faceless x Albeniz-26.jpg';
+import img08 from '../assets/images/Faceless x Albeniz-41.jpg';
+import img09 from '../assets/images/FACELESS X TRIBECA SM 2024-25.jpg';
+
+const images = [
+  { src: img01, alt: "1" },
+  { src: img02, alt: "2" },
+  { src: img03, alt: "3" },
+  { src: img04, alt: "4" },
+  { src: img05, alt: "5" },
+  { src: img06, alt: "6" },
+  { src: img07, alt: "7" },
+  { src: img08, alt: "8" },
+  { src: img09, alt: "9" },
+];
+---
+
+<section id="galeria-carrusel" class="py-16 md:py-12 bg-black text-white">
+  <div class="container mx-auto px-2 sm:px-4">
+    <div id="horizontal-thumbnails-carousel" class="relative w-full">
+
+      <!-- contenedor principal: ahora SIEMPRE columna -->
+      <div class="flex flex-col space-y-4">
+
+        <!-- ===== Slider principal ===== -->
+        <div class="relative w-full overflow-hidden rounded-lg order-1">
+          <div id="carousel-body" class="relative h-72 xs:h-80 sm:h-[500px] md:h-[600px] lg:h-[700px]">
+            {images.map((img, index) => (
+              <div
+                class:list={[
+                  "carousel-slide absolute inset-0 transition-opacity duration-700 ease-in-out",
+                  index === 0 ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                ]}
+                data-slide-id={index}
+              >
+                <div class="flex size-full justify-center items-center bg-black/20">
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    widths={[320, 640, 960, 1280, 1920, 2560]}
+                    sizes="(min-width: 1280px) 70vw, (min-width: 1024px) 60vw, 100vw"
+                    quality="high"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    class="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <!-- Controles -->
+          <button
+            type="button"
+            id="carousel-prev"
+            class="absolute top-1/2 left-2 md:left-4 -translate-y-1/2 z-20 group"
+            aria-label="Anterior"
+          >
+            <span class="size-9 md:size-11 lg:size-12 bg-black/40 group-hover:bg-black/60 text-white flex items-center justify-center rounded-full shadow-md transition-colors duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 lg:w-6 lg:h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </span>
+          </button>
+          <button
+            type="button"
+            id="carousel-next"
+            class="absolute top-1/2 right-2 md:right-4 -translate-y-1/2 z-20 group"
+            aria-label="Siguiente"
+          >
+            <span class="size-9 md:size-11 lg:size-12 bg-black/40 group-hover:bg-black/60 text-white flex items-center justify-center rounded-full shadow-md transition-colors duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 lg:w-6 lg:h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        <!-- ===== Miniaturas (fila horizontal con scroll-x) ===== -->
+        <div class="order-2">
+          <div
+            id="carousel-pagination-container"
+            class="flex gap-2 md:gap-3 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800
+                   w-full px-1"
+          >
+            {images.map((img, index) => (
+              <button
+                class="carousel-pagination-item group flex-shrink-0 aspect-video w-40 md:w-48 lg:w-56 cursor-pointer rounded-md overflow-hidden"
+                data-slide-to={index}
+              >
+                <Image
+                  src={img.src}
+                  alt={`Miniatura ${img.alt}`}
+                  width={320}
+                  densities={[1, 1.5, 2]}
+                  quality="mid"
+                  loading="lazy"
+                  class="w-full h-full object-cover opacity-50 group-hover:opacity-75 transition-opacity duration-300 carousel-active-img:opacity-100"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
+      </div> <!-- fin flex-col -->
+    </div>
+  </div>
+
+  <!-- ===== Script idéntico; no hay que tocar nada ===== -->
+  <script is:inline define:vars={{ totalImages: images.length }}>
+    const carouselBody = document.getElementById('carousel-body');
+    const slides = Array.from(carouselBody.querySelectorAll('.carousel-slide'));
+    const paginationContainer = document.getElementById('carousel-pagination-container');
+    const paginationItems = Array.from(paginationContainer.querySelectorAll('.carousel-pagination-item'));
+    const prevButton = document.getElementById('carousel-prev');
+    const nextButton = document.getElementById('carousel-next');
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      const prevIndex = currentIndex;
+      currentIndex = (index + totalImages) % totalImages;
+
+      // Slides
+      slides[prevIndex].classList.remove('opacity-100', 'z-10');
+      slides[prevIndex].classList.add('opacity-0', 'z-0', 'pointer-events-none');
+      slides[currentIndex].classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+      slides[currentIndex].classList.add('opacity-100', 'z-10');
+
+      // Thumbnails
+      const prevThumb = paginationItems[prevIndex].querySelector('img');
+      const currThumb = paginationItems[currentIndex].querySelector('img');
+      prevThumb.classList.remove('carousel-active-img:opacity-100', 'opacity-100');
+      prevThumb.classList.add('opacity-50');
+      currThumb.classList.remove('opacity-50');
+      currThumb.classList.add('carousel-active-img:opacity-100', 'opacity-100');
+
+      // Auto-scroll miniaturas
+      if (paginationContainer.scrollWidth > paginationContainer.clientWidth) {
+       paginationItems[currentIndex].scrollIntoView({
+  behavior: 'smooth',
+  inline: 'nearest',   // solo mueve en X
+  block:  'nearest',   // NO mueve en Y
+});
+
+      }
+    }
+
+    prevButton.addEventListener('click', () => showSlide(currentIndex - 1));
+    nextButton.addEventListener('click', () => showSlide(currentIndex + 1));
+    paginationItems.forEach(item =>
+      item.addEventListener('click', () => showSlide(parseInt(item.dataset.slideTo, 10)))
+    );
+
+    // Estado inicial
+    if (paginationItems.length) {
+      paginationItems[0].querySelector('img').classList.remove('opacity-50');
+      paginationItems[0].querySelector('img').classList.add('carousel-active-img:opacity-100', 'opacity-100');
+    }
+  </script>
+</section>

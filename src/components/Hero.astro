@@ -1,0 +1,41 @@
+---
+import heroVideo from '../assets/videos/hero.mp4';
+import logo      from '../assets/images/logo1.png';
+import {
+  FaInstagram, FaTiktok, FaYoutube, FaSoundcloud, FaWhatsapp, FaDropbox
+} from 'react-icons/fa6';
+import { FiMail } from 'react-icons/fi';
+
+const social = [
+  { Comp: FaInstagram,  url: 'https://www.instagram.com/chechuisfaceless/' },
+  { Comp: FaTiktok,     url: 'https://www.tiktok.com/@chechuisfaceless'   },
+  { Comp: FaYoutube,    url: 'https://www.youtube.com/@chechuisfaceless'  },
+  { Comp: FaSoundcloud, url: 'https://soundcloud.com/chechuisfaceless'    },
+  { Comp: FiMail,       url: 'mailto:djfaceless.music@gmail.com'          },
+  { Comp: FaWhatsapp,   url: 'https://wa.me/34609875373'                  },
+  { Comp: FaDropbox,    url: 'https://www.dropbox.com/scl/fo/qsqnfajth718tmobf0sq3/h?dl=0' },
+];
+---
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+  <!-- vídeo de fondo -->
+  <video autoplay muted loop playsinline src={heroVideo} class="absolute inset-0 w-full h-full object-cover"></video>
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <!-- logo centrado -->
+  <img
+    src={logo.src}
+    width={logo.width}
+    height={logo.height}
+    alt="Faceless Logo"
+    class="absolute top-10 left-1/2 -translate-x-1/2 w-48 md:w-72 lg:w-80" />
+
+  <!-- overlay redes bottom center -->
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
+    {social.map(({ Comp, url }) => (
+      <a href={url} target="_blank" rel="noopener" aria-label={Comp.name}
+         class="text-brand-white/80 hover:text-brand-light transition">
+        <Comp size={26} />
+      </a>
+    ))}
+  </div>
+</section>

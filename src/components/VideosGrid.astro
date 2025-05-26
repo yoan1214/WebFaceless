@@ -1,0 +1,54 @@
+---
+// ShortsGrid.astro  – 6 YouTube Shorts en parrilla vertical
+const ids = [
+  'K7VfShODQh0',
+  'subW1WWJ7rQ',
+  'K7VfShODQh0',
+  'subW1WWJ7rQ',
+  'K7VfShODQh0',
+  'subW1WWJ7rQ',
+];
+---
+
+<section id="shorts" class="py-24 bg-black">
+  <div
+    class="container mx-auto grid gap-6 
+           sm:grid-cols-3               /* 3 columns desktop  */
+           grid-cols-2                  /* 2 columns mobile   */"
+  >
+    {ids.map(id => (
+      <div class="group relative overflow-hidden rounded-xl shadow-xl">
+        <!-- Relación 2 : 3  (vertical) -->
+        <div class="aspect-[2/3] w-full h-auto">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${id}?modestbranding=1&rel=0&playsinline=1`}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            class="absolute inset-0 h-full w-full object-cover"
+          ></iframe>
+        </div>
+
+        <!-- overlay play -->
+        <div
+          class="pointer-events-none absolute inset-0 flex items-center justify-center
+                 bg-black/0 group-hover:bg-black/20 transition"
+        >
+          <!-- ícono play (SVG) -->
+          <svg
+            class="h-14 w-14 text-white/80 group-hover:scale-110 transition-transform"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <circle cx="12" cy="12" r="10" fill="currentColor" opacity=".25" />
+            <polygon
+              points="10,8 17,12 10,16"
+              fill="currentColor"
+              opacity=".9"
+            />
+          </svg>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
