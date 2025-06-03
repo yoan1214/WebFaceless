@@ -20,34 +20,42 @@ const social = [
 ];
 ---
 
-<footer class="bg-black py-12 text-white">
-  <h2 class="text-center mb-10 text-2xl tracking-widest font-semibold">
-    FOLLOW&nbsp;ME
+<footer class="bg-black py-8 text-white">
+  <!-- HEADLINE escalable -->
+  <h2 class="mb-10 text-center font-semibold tracking-widest
+             text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+    SOCIAL&nbsp;MEDIA
   </h2>
 
-  <!-- iconos -->
-  <div class="mx-auto flex flex-wrap justify-center gap-6 max-w-5xl">
+  <!-- ICONOS -->
+  <div class="mx-auto flex flex-wrap justify-center gap-5 max-w-5xl">
     {social.map(({ Comp, url, label }) => (
       <a
+        key={url}
         href={url}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={label}
-        class="relative flex items-center justify-center
-               w-16 h-16 sm:w-20 sm:h-20
-               border border-white/40
-               text-white transition-colors
-               hover:bg-white hover:text-black"
+        class="group flex flex-col items-center text-white focus-visible:outline-none"
       >
-        <Comp size={26} />
+        <div
+          class="flex items-center justify-center
+                 w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24
+                 border border-white]/40
+                 bg-transparent transition-colors active:scale-95
+                 group-hover:bg-white group-hover:text-black"
+        >
+          <Comp
+            className="text-[18px] sm:text-[26px] md:text-[32px] lg:text-[38px] xl:text-[44px] transition-colors"
+          />
+        </div>
 
-        <!-- tooltip desktop -->
         <span
-          class="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2
-                 whitespace-nowrap text-xs opacity-0 translate-y-1
-                 transition-all duration-150
-                 hover:opacity-100 hover:translate-y-0
-                 hidden sm:block"
+          class="mt-1 hidden sm:block
+                 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100
+                 transition-opacity duration-200
+                 text-xs md:text-sm lg:text-base xl:text-lg
+                 whitespace-nowrap"
         >
           {label}
         </span>

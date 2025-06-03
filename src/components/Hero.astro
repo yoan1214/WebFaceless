@@ -1,6 +1,6 @@
 ---
 import heroVideo from '../assets/videos/hero.mp4';
-import logo      from '../assets/images/logo1.png';
+import logo      from '../assets/media/logo1.png';
 import {
   FaInstagram, FaTiktok, FaYoutube, FaSoundcloud, FaWhatsapp, FaDropbox
 } from 'react-icons/fa6';
@@ -27,15 +27,23 @@ const social = [
     width={logo.width}
     height={logo.height}
     alt="Faceless Logo"
-    class="absolute top-10 left-1/2 -translate-x-1/2 w-48 md:w-72 lg:w-80" />
+    class="absolute top-10 left-1/2 -translate-x-1/2 w-72 md:w-90 lg:w-120" />
 
-  <!-- overlay redes bottom center -->
-  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
-    {social.map(({ Comp, url }) => (
-      <a href={url} target="_blank" rel="noopener" aria-label={Comp.name}
-         class="text-brand-white/80 hover:text-brand-light transition">
-        <Comp size={26} />
-      </a>
-    ))}
-  </div>
+ <!-- overlay redes bottom-center -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-5">
+  {social.map(({ Comp, url }) => (
+    <a
+      key={url}
+      href={url}
+      target="_blank"
+      rel="noopener"
+      aria-label={Comp.name}
+      class="text-white/80 transition-colors duration-300 hover:text-[#0018CA] focus-visible:text-[#0018CA]"
+    >
+      {/* móvil ≈ 26 px ··· desktop ≥ 1024 px → 52 px */}
+      <Comp className="text-[26px] lg:text-[52px]" />
+    </a>
+  ))}
+</div>
+
 </section>

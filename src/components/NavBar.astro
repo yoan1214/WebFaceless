@@ -1,32 +1,115 @@
 ---
-// Instala primero: `npm i react-icons`
+import logo from '../assets/media/logo1.png';
 import {
-  FaInstagram, FaTiktok, FaYoutube, FaSoundcloud, FaWhatsapp, FaDropbox
+  FaInstagram, FaTiktok, FaYoutube, FaSoundcloud,
+  FaWhatsapp,  FaDropbox,
 } from 'react-icons/fa6';
 import { FiMail } from 'react-icons/fi';
 
 const social = [
   { Comp: FaInstagram,  url: 'https://www.instagram.com/chechuisfaceless/' },
-  { Comp: FaTiktok,     url: 'https://www.tiktok.com/@chechuisfaceless'   },
-  { Comp: FaYoutube,    url: 'https://www.youtube.com/@chechuisfaceless'  },
-  { Comp: FaSoundcloud, url: 'https://soundcloud.com/chechuisfaceless'    },
-  { Comp: FiMail,       url: 'mailto:djfaceless.music@gmail.com'          },
-  { Comp: FaWhatsapp,   url: 'https://wa.me/34609875373'                  },
-  { Comp: FaDropbox,    url: 'https://www.dropbox.com/scl/fo/qsqnfajth718tmobf0sq3/h?rlkey=l5hh3yfzpv17scixjpdirw2y6&dl=0' },
+  { Comp: FaTiktok,     url: 'https://www.tiktok.com/@chechuisfaceless' },
+  { Comp: FaYoutube,    url: 'https://www.youtube.com/@chechuisfaceless' },
+  { Comp: FaSoundcloud, url: 'https://soundcloud.com/chechuisfaceless' },
+  { Comp: FiMail,       url: 'mailto:djfaceless.music@gmail.com' },
+  { Comp: FaWhatsapp,   url: 'https://wa.me/34609875373' },
+  { Comp: FaDropbox,    url: 'https://www.dropbox.com/scl/fo/qsqnfajth718tmobf0sq3/h?dl=0' },
 ];
 ---
-<nav class="fixed inset-x-0 top-0 z-50 bg-brand-dark/80 backdrop-blur p-4">
-  <div class="container mx-auto flex flex-wrap items-center justify-center gap-y-2 sm:justify-between">
-    <!-- Iconos visibles sólo en desktop -->
-    <div class="hidden md:flex gap-3 order-2 md:order-1">
-      {social.map(({ Comp, url }) => (
-        <a href={url} target="_blank" rel="noopener" aria-label={Comp.name}
-           class="p-2 text-brand-light hover:text-brand-white transition">
-          <Comp size={22} />
-        </a>
-      ))}
-    </div>
 
-    <span class="order-1 sm:order-2 w-full sm:w-auto text-center font-heading tracking-wider text-2xl text-brand-white">FACELESS</span>
+<!-- ==========   TOP BAR   ========== -->
+<header class="fixed inset-x-0 top-0 z-40 bg-transparent">
+  <div class="flex items-center justify-between h-16 px-4 md:px-10">
+
+    <!--  HAMBURGER  -->
+    <button id="menu-open" aria-label="Abrir menú" class="p-2">
+      <svg class="w-9 h-9 md:w-11 md:h-11 lg:w-13 lg:h-13"
+           viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+
+    <!--  LOGO  -->
+    <a href="/" aria-label="Inicio">
+      <img src={logo.src} alt="Faceless logo"
+           class="h-24 md:h-30 lg:h-40 w-auto" />
+    </a>
   </div>
-</nav>
+</header>
+
+<!-- ==========   OVERLAY MENU   ========== -->
+<style>
+  #mobile-menu{transition:transform .35s ease,opacity .35s ease;
+               transform:translateY(-100%);
+               opacity:0;pointer-events:none}
+  #mobile-menu.open{transform:translateY(0);
+                    opacity:1;pointer-events:auto}
+  html.no-scroll{height:100%;overflow:hidden}
+</style>
+
+<div id="mobile-menu"
+     class="fixed inset-0 z-50 flex flex-col bg-black text-white
+            font-heading uppercase tracking-wide">
+
+  <!-- CLOSE BTN -->
+  <button id="menu-close" aria-label="Cerrar menú"
+          class="absolute left-4 top-4 p-2">
+    <svg class="w-9 h-9" viewBox="0 0 24 24" stroke="currentColor"
+         fill="none" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M6 6l12 12M6 18L18 6"/>
+    </svg>
+  </button>
+
+  <!--  CENTRAL LOGO  -->
+  <img src={logo.src} alt="Faceless logo"
+       class="absolute top-10 left-1/2 -translate-x-1/2
+              w-92 md:w-[22rem] lg:w-[30rem]" />
+
+  <!--  NAV LINKS  -->
+  <nav class="flex flex-col flex-1 items-center justify-center gap-8
+              text-3xl md:text-4xl lg:text-5xl mt-56 md:mt-64 lg:mt-72">
+    <a href="https://www.dropbox.com/scl/fo/qsqnfajth718tmobf0sq3/h?dl=0"
+       class="hover:text-brand-light">Presskit</a>
+    <a href="#bio"              class="hover:text-brand-light">Sobre&nbsp;Mí</a>
+    <a href="#shorts"           class="hover:text-brand-light">Videos</a>
+    <a href="#galeria-carrusel" class="hover:text-brand-light">Galería</a>
+    <a href="#instagram"        class="hover:text-brand-light">Social&nbsp;Media</a>
+    <a data-open="contact-modal"
+       class="hover:text-brand-light">Contacto</a>
+  </nav>
+
+  <!--  SOCIAL ICONS  -->
+  <div class="flex justify-center gap-6 pb-10">
+    {social.map(({ Comp, url }) => (
+      <a key={url} href={url} target="_blank" rel="noopener"
+         aria-label={Comp.name}
+         class="transition-colors hover:text-brand-light">
+        <Comp className="text-[24px] md:text-[32px] lg:text-[40px]" />
+      </a>
+    ))}
+  </div>
+</div>
+
+<!-- ==========   JS   ========== -->
+<script is:inline>
+  const overlay  = document.getElementById('mobile-menu');
+  const openBtn  = document.getElementById('menu-open');
+  const closeBtn = document.getElementById('menu-close');
+
+  if (overlay && openBtn && closeBtn) {
+    const openMenu  = () => {
+      overlay.classList.add('open');
+      document.documentElement.classList.add('no-scroll');
+    };
+    const closeMenu = () => {
+      overlay.classList.remove('open');
+      document.documentElement.classList.remove('no-scroll');
+    };
+
+    openBtn.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  }
+</script>

@@ -1,29 +1,18 @@
 ---
-// imports idénticos a los tuyos
 import { Image } from 'astro:assets';
 
-import img01 from '../assets/images/1.jpg';
-import img02 from '../assets/images/Chechuisfaceless Gabanna 19 12 -68.jpg';
-import img03 from '../assets/images/19.jpg';
-import img04 from '../assets/images/21.jpg';
-import img05 from '../assets/images/30.jpg';
-import img06 from '../assets/images/ing-5.jpg';
-import img07 from '../assets/images/Faceless x Albeniz-26.jpg';
-import img08 from '../assets/images/Faceless x Albeniz-41.jpg';
-import img09 from '../assets/images/FACELESS X TRIBECA SM 2024-25.jpg';
+/* 1 ▸ recoge todos los ficheros de la carpeta */
+const imageImports = import.meta.glob(
+  '../assets/images/*.{jpg,jpeg,png,webp}',
+  { eager: true,  import: 'default' }
+);
 
-const images = [
-  { src: img01, alt: "1" },
-  { src: img02, alt: "2" },
-  { src: img03, alt: "3" },
-  { src: img04, alt: "4" },
-  { src: img05, alt: "5" },
-  { src: img06, alt: "6" },
-  { src: img07, alt: "7" },
-  { src: img08, alt: "8" },
-  { src: img09, alt: "9" },
-];
+/* 2 ▸ array ordenado alfabéticamente */
+const images = Object.entries(imageImports)
+            // quita si no te importa el orden
+  .map(([_, src], i) => ({ src, alt: `Foto ${i + 1}` }));
 ---
+
 
 <section id="galeria-carrusel" class="py-16 md:py-12 bg-black text-white">
   <div class="container mx-auto px-2 sm:px-4">

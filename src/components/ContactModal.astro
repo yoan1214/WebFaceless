@@ -1,0 +1,89 @@
+---
+/* ContactModal.astro */
+const actionURL = "https://submit-form.com/wbhJHJbS4";
+---
+
+
+<!-- ─────────────  MODAL OVERLAY  ───────────── -->
+<div id="contact-modal"
+     class="hidden fixed inset-0 z-50 flex items-center justify-center
+            bg-black/80 backdrop-blur-sm">
+  
+  <!-- Contenedor del formulario -->
+  <div class="relative w-[90%] max-w-lg mx-auto
+              rounded-lg bg-black border border-[#0018CA55]
+              p-6 sm:p-8 text-white space-y-6">
+
+    <!-- Botón cerrar -->
+    <button data-close
+            class="absolute top-3 right-3 text-white/70 hover:text-white text-2xl">
+      &times;
+    </button>
+
+    <!-- TITULAR -->
+    <h2 class="text-center font-semibold tracking-widest
+               text-xl sm:text-2xl">
+      ENVIAR&nbsp;UN&nbsp;MENSAJE
+    </h2>
+
+    <!-- FORMULARIO -->
+    <form action={actionURL} method="POST" class="space-y-6">
+
+      <input  type="text" name="nombre" placeholder="Nombre" required
+              class="w-full rounded-md bg-black/80 placeholder:text-white/50
+                     px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <input type="email" name="email" placeholder="Email" required
+               class="w-full rounded-md bg-black/80 placeholder:text-white/50
+                      px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+        <input type="tel" name="telefono" placeholder="Teléfono"
+               class="w-full rounded-md bg-black/80 placeholder:text-white/50
+                      px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+      </div>
+
+      <textarea name="mensaje" rows="4" placeholder="Mensaje"
+                class="w-full rounded-md bg-black/80 placeholder:text-white/50
+                       px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none resize-none"></textarea>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <input type="date" name="fecha"
+               class="w-full rounded-md bg-black/80 text-white
+                      px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+        <input type="text" name="lugar" placeholder="Lugar del evento"
+               class="w-full rounded-md bg-black/80 placeholder:text-white/50
+                      px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+      </div>
+
+      <!-- honeypot + redirect -->
+      <input type="text" name="_honey" class="hidden"/>
+      <input type="hidden" name="_redirect" value="/gracias"/>
+
+      <button type="submit"
+              class="w-full rounded-md bg-[#0018CA] py-3 font-semibold text-black
+                     transition hover:brightness-110 active:scale-95">
+        Enviar
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ─────────────  SCRIPT  ───────────── -->
+<script is:inline>
+  // abre cualquier elemento con [data-open="contact-modal"]
+  document.querySelectorAll('[data-open="contact-modal"]')
+          .forEach(btn => btn.addEventListener('click', () =>
+            document.getElementById('contact-modal').classList.remove('hidden')));
+
+  // cierra con data-close o clic fuera
+  const modal = document.getElementById('contact-modal');
+  modal.addEventListener('click', e => {
+    if (e.target.dataset.close !== undefined || e.target === modal)
+      modal.classList.add('hidden');
+  });
+
+  // ESC para cerrar
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') modal.classList.add('hidden');
+  });
+</script>

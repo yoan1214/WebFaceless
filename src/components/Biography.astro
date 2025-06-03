@@ -1,29 +1,48 @@
 ---
-import bioBg from '../assets/images/_YEN2711.jpg'; // ImageMetadata
+import smallBg from '../assets/media/_YEN2711.jpg';   // < 1024 px
+import largeBg from '../assets/media/biocolord.jpg';  // ≥ 1024 px
 ---
-<section
-  id="bio"
-  class="relative h-screen md:min-h-[100vh] bg-center bg-cover"
-  style={`background-image: url('${bioBg.src ?? bioBg}');`}>
 
-  <!-- Overlay negro-azulado (puedes ajustar opacidad / color) -->
+<section id="bio"
+  class="relative min-h-screen lg:min-h-[100vh] overflow-hidden">
+
+  <!-- ✅ Fondo responsivo: <picture> + object-cover -->
+  <picture class="absolute inset-0 -z-10">
+    <!-- Imagen grande para desktop -->
+    <source srcset={largeBg.src} media="(min-width:1024px)" />
+    <!-- Fallback móvil -->
+    <img src={smallBg.src} alt="" class="w-full h-full object-cover" />
+  </picture>
+
+  <!-- Overlay oscuro -->
   <div class="absolute inset-0 bg-brand-dark/70"></div>
 
-  <!-- Texto centrado vertical, con máximo 650 px de ancho -->
-  <div class="relative z-10 container mx-auto flex items-center h-full px-4">
+  <!-- Contenido -->
+  <div class="relative z-10 container mx-auto
+              flex flex-col justify-center
+              px-4 py-12 min-h-screen lg:min-h-[100vh]">
     <div class="max-w-prose text-brand-white">
-      <h2 class="font-heading text-4xl md:text-5xl mb-6 leading-tight">
+      <h2 class="font-heading font-extrabold
+                 text-3xl sm:text-4xl lg:text-6xl mb-8 leading-tight">
         FACELESS
       </h2>
+      <!-- line-height algo menor en móviles para ocupar menos -->
+      <p class="leading-relaxed text-base sm:text-lg md:text-xl">
+        
+        Los más de 8 años de trayectoria posicionan a FACELESS como uno de los DJs más
+        consolidados y bien posicionados de la región asturiana.<br><br>
 
-      <p class="leading-relaxed text-lg md:text-xl">
-       Los más de 8 años de trayectoria posicionan a FACELESS como uno de los DJs más consolidados y bien posicionados de la región asturiana. 
+        En sus sesiones mezcla los ritmos urbanos más novedosos con la electrónica más
+        potente haciendo que sus sets sean únicos. Además, su versatilidad permite que se
+        adapte perfectamente al público de cada sala.<br><br>
 
-En sus sesiones mezcla los ritmos urbanos más novedosos con la electrónica más potente haciendo que sus sets sean unicos. Además, su versatilidad permite que se adapte perfectamente al público de cada sala.
+        Todo ello le ha llevado a compartir cabina con grandes artistas de la talla de
+        Chimeno, David Dancos, Anthony Godfather, Robert Morr, Dj Totote y Juanjo Martin
+        entre otros.<br><br>
 
-Todo ellos le ha llevado a compartir cabina con grandes artistas de la talla de Chimeno, David Dancos, Anthony Godfather, Robert Morr, Dj Totote y Juanjo Martin entre otros.
-
-En 2023 comienza su andadura como promotor de la mano de Fraternity's House, su propia fiesta, en la que se juntan los mejores djs nacionales con un show propio para que cada evento sea un experiencia única
+        En 2023 comienza su andadura como promotor de la mano de Fraternity's House, su
+        propia fiesta, en la que se juntan los mejores DJs nacionales con un show propio
+        para que cada evento sea una experiencia única.
       </p>
     </div>
   </div>

@@ -1,52 +1,46 @@
 ---
-// ShortsGrid.astro  – 6 YouTube Shorts en parrilla vertical
+// ShortsGrid.astro
 const ids = [
-  'K7VfShODQh0',
-  'subW1WWJ7rQ',
-  'K7VfShODQh0',
-  'subW1WWJ7rQ',
-  'K7VfShODQh0',
-  'subW1WWJ7rQ',
+  'K7VfShODQh0','subW1WWJ7rQ','ikhbMa4tRgA',
 ];
 ---
 
-<section id="shorts" class="py-24 bg-black">
+<section id="shorts" class="py-8 bg-black">
   <div
-    class="container mx-auto grid gap-6 
-           sm:grid-cols-3               /* 3 columns desktop  */
-           grid-cols-2                  /* 2 columns mobile   */"
+    class="
+      mx-auto px-4
+      max-w-screen-md        /*  < 1024 px */
+      lg:max-w-screen-xl     /* 1024–1279 px */
+      xl:max-w-[1600px]      /* 1280–1535 px */
+      2xl:max-w-[1920px]     /* ≥ 1536 px   */
+
+      grid
+      gap-4                  /* mobile gap */
+      sm:gap-6               /* ≥ 640 px    */
+      lg:gap-8               /* ≥ 1024 px   */
+      xl:gap-12              /* ≥ 1280 px   */
+      2xl:gap-16             /* ≥ 1536 px   */
+
+      [grid-template-columns:repeat(auto-fit,minmax(160px,1fr))]
+      sm:[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]
+      lg:[grid-template-columns:repeat(3,minmax(0,1fr))]
+    "
   >
     {ids.map(id => (
-      <div class="group relative overflow-hidden rounded-xl shadow-xl">
-        <!-- Relación 2 : 3  (vertical) -->
-        <div class="aspect-[2/3] w-full h-auto">
+      <div class="relative overflow-hidden rounded-none shadow-lg">
+        <div class="aspect-[9/16] bg-black relative overflow-hidden">
           <iframe
-            src={`https://www.youtube-nocookie.com/embed/${id}?modestbranding=1&rel=0&playsinline=1`}
+            src={`https://www.youtube-nocookie.com/embed/${id}?playsinline=1&modestbranding=1&rel=0&controls=1`}
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
-            class="absolute inset-0 h-full w-full object-cover"
+            class="
+              absolute inset-0
+              h-full w-auto min-w-full
+              left-1/2 -translate-x-1/2
+              object-cover
+            "
           ></iframe>
-        </div>
-
-        <!-- overlay play -->
-        <div
-          class="pointer-events-none absolute inset-0 flex items-center justify-center
-                 bg-black/0 group-hover:bg-black/20 transition"
-        >
-          <!-- ícono play (SVG) -->
-          <svg
-            class="h-14 w-14 text-white/80 group-hover:scale-110 transition-transform"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <circle cx="12" cy="12" r="10" fill="currentColor" opacity=".25" />
-            <polygon
-              points="10,8 17,12 10,16"
-              fill="currentColor"
-              opacity=".9"
-            />
-          </svg>
         </div>
       </div>
     ))}
