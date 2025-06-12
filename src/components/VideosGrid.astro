@@ -1,48 +1,102 @@
 ---
 // ShortsGrid.astro
 const ids = [
-  'K7VfShODQh0','subW1WWJ7rQ','ikhbMa4tRgA',
+ 'kJXsEqphTSo', 'K7VfShODQh0','subW1WWJ7rQ','ikhbMa4tRgA','uTqwo8LDZqM','hAfO1iiNjqw'
 ];
 ---
 
-<section id="shorts" class="py-8 bg-black">
-  <div
-    class="
-      mx-auto px-4
-      max-w-screen-md        /*  < 1024 px */
-      lg:max-w-screen-xl     /* 1024–1279 px */
-      xl:max-w-[1600px]      /* 1280–1535 px */
-      2xl:max-w-[1920px]     /* ≥ 1536 px   */
-
-      grid
-      gap-4                  /* mobile gap */
-      sm:gap-6               /* ≥ 640 px    */
-      lg:gap-8               /* ≥ 1024 px   */
-      xl:gap-12              /* ≥ 1280 px   */
-      2xl:gap-16             /* ≥ 1536 px   */
-
-      [grid-template-columns:repeat(auto-fit,minmax(160px,1fr))]
-      sm:[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]
-      lg:[grid-template-columns:repeat(3,minmax(0,1fr))]
-    "
-  >
-    {ids.map(id => (
-      <div class="relative overflow-hidden rounded-none shadow-lg">
-        <div class="aspect-[9/16] bg-black relative overflow-hidden">
+<section id="shorts" class="py-8 bg-[#202A25]">
+  <div class="container mx-auto px-4">
+    <div class="shorts-grid">
+      {ids.map(id => (
+        <div class="shorts-item">
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${id}?playsinline=1&modestbranding=1&rel=0&controls=1`}
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
-            class="
-              absolute inset-0
-              h-full w-auto min-w-full
-              left-1/2 -translate-x-1/2
-              object-cover
-            "
           ></iframe>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 </section>
+
+<style>
+  .container {
+    max-width: 768px;
+  }
+  
+  @media (min-width: 768px) { .container { max-width: 90%; } }
+  @media (min-width: 1024px) { .container { max-width: 90%; } }
+  @media (min-width: 1536px) { .container { max-width: 90%; } }
+
+  .shorts-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .shorts-item {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    background: black;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .shorts-item iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Tablet - 2 por fila */
+  @media (min-width: 640px) {
+    .shorts-grid {
+      gap: 1.5rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .shorts-item { max-width: 320px; }
+  }
+
+  /* Tablet grande - 3 por fila */
+  @media (min-width: 768px) {
+    .shorts-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .shorts-item { max-width: 280px; }
+  }
+
+  /* Desktop */
+  @media (min-width: 1024px) {
+    .shorts-grid { gap: 2rem; }
+    .shorts-item { max-width: 320px; }
+  }
+
+  /* Pantallas grandes */
+  @media (min-width: 1280px) {
+    .shorts-item { max-width: 320px; }
+  }
+
+  /* Pantallas muy grandes - iframes más grandes */
+  @media (min-width: 1536px) {
+    .shorts-grid { gap: 2.5rem; }
+    .shorts-item { max-width: 440px; }
+  }
+
+  /* Móvil horizontal */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .shorts-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .shorts-item { max-width: none; }
+  }
+</style>

@@ -3,87 +3,291 @@
 const actionURL = "https://submit-form.com/wbhJHJbS4";
 ---
 
-
 <!-- ─────────────  MODAL OVERLAY  ───────────── -->
 <div id="contact-modal"
      class="hidden fixed inset-0 z-50 flex items-center justify-center
-            bg-black/80 backdrop-blur-sm">
-  
+            bg-black/90 backdrop-blur-md animate-fade-in">
+
   <!-- Contenedor del formulario -->
-  <div class="relative w-[90%] max-w-lg mx-auto
-              rounded-lg bg-black border border-[#0018CA55]
-              p-6 sm:p-8 text-white space-y-6">
+  <div class="relative w-[95%] max-w-lg mx-auto
+              rounded-2xl bg-gradient-to-br from-gray-900 to-black
+              border-2 border-[#4CE0D2]/30 shadow-2xl
+              p-4 sm:p-8 text-white space-y-4 sm:space-y-6 animate-slide-up">
 
     <!-- Botón cerrar -->
     <button data-close
-            class="absolute top-3 right-3 text-white/70 hover:text-white text-2xl">
-      &times;
+            class="absolute -top-4 -right-4 w-10 h-10 rounded-full
+                   bg-gradient-to-br from-[#4CE0D2] to-[#20A4F3]
+                   text-white font-bold text-xl
+                   hover:from-[#20A4F3] hover:to-[#0018CA]
+                   transform transition-all duration-300
+                   hover:scale-110 active:scale-95
+                   shadow-lg hover:shadow-xl
+                   flex items-center justify-center">
+      ×
     </button>
 
     <!-- TITULAR -->
-    <h2 class="text-center font-semibold tracking-widest
-               text-xl sm:text-2xl">
-      ENVIAR&nbsp;UN&nbsp;MENSAJE
-    </h2>
+    <div class="text-center space-y-4">
+      <h2 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#4CE0D2] via-[#20A4F3] to-[#232ED1]
+                 bg-clip-text text-transparent tracking-tight">
+        CONTÁCTAME
+      </h2>
+      <div class="w-20 h-1 bg-gradient-to-r from-[#4CE0D2] via-[#20A4F3] to-[#0018CA]
+                  mx-auto rounded-full"></div>
+    </div>
 
     <!-- FORMULARIO -->
-    <form action={actionURL} method="POST" class="space-y-6">
+    <form id="contact-form" action={actionURL} method="POST" class="space-y-4 sm:space-y-5">
+      <!-- Honeypot múltiple -->
+      <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off"/>
+      <input type="email" name="_email_trap" class="hidden" tabindex="-1" autocomplete="off"/>
+      <input type="url" name="_website" class="hidden" tabindex="-1" autocomplete="off"/>
+      
+      <!-- Time trap (campos ocultos para validación temporal) -->
+      <input type="hidden" name="_form_start" id="form-start-time"/>
+      <input type="hidden" name="_form_token" id="form-token"/>
 
-      <input  type="text" name="nombre" placeholder="Nombre" required
-              class="w-full rounded-md bg-black/80 placeholder:text-white/50
-                     px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+      <!-- Nombre -->
+      <div class="space-y-2">
+        <input type="text" name="nombre" placeholder="Nombre" required
+               class="w-full rounded-xl bg-black/60 backdrop-blur-sm
+                      text-white placeholder:text-gray-400
+                      px-3 py-3 sm:px-5 sm:py-4 border border-gray-700
+                      focus:border-[#4CE0D2] focus:ring-2 focus:ring-[#4CE0D2]/30
+                      outline-none transition-all duration-300
+                      hover:border-gray-600 text-sm sm:text-base"/>
+      </div>
 
-      <div class="grid gap-4 md:grid-cols-2">
+      <!-- Email y Teléfono -->
+      <div class="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
         <input type="email" name="email" placeholder="Email" required
-               class="w-full rounded-md bg-black/80 placeholder:text-white/50
-                      px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+               class="w-full rounded-xl bg-black/60 backdrop-blur-sm
+                      text-white placeholder:text-gray-400
+                      px-3 py-3 sm:px-5 sm:py-4 border border-gray-700
+                      focus:border-[#20A4F3] focus:ring-2 focus:ring-[#20A4F3]/30
+                      outline-none transition-all duration-300
+                      hover:border-gray-600 text-sm sm:text-base"/>
         <input type="tel" name="telefono" placeholder="Teléfono"
-               class="w-full rounded-md bg-black/80 placeholder:text-white/50
-                      px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+               class="w-full rounded-xl bg-black/60 backdrop-blur-sm
+                      text-white placeholder:text-gray-400
+                      px-3 py-3 sm:px-5 sm:py-4 border border-gray-700
+                      focus:border-[#232ED1] focus:ring-2 focus:ring-[#232ED1]/30
+                      outline-none transition-all duration-300
+                      hover:border-gray-600 text-sm sm:text-base"/>
       </div>
 
-      <textarea name="mensaje" rows="4" placeholder="Mensaje"
-                class="w-full rounded-md bg-black/80 placeholder:text-white/50
-                       px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none resize-none"></textarea>
+      <!-- Mensaje -->
+      <textarea name="mensaje" rows="4" placeholder="Mensaje" required
+                class="w-full rounded-xl bg-black/60 backdrop-blur-sm
+                       text-white placeholder:text-gray-400
+                       px-3 py-3 sm:px-5 sm:py-4 border border-gray-700
+                       focus:border-[#0018CA] focus:ring-2 focus:ring-[#0018CA]/30
+                       outline-none transition-all duration-300 resize-none
+                       hover:border-gray-600 text-sm sm:text-base"></textarea>
 
-      <div class="grid gap-4 md:grid-cols-2">
-        <input type="date" name="fecha"
-               class="w-full rounded-md bg-black/80 text-white
-                      px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
-        <input type="text" name="lugar" placeholder="Lugar del evento"
-               class="w-full rounded-md bg-black/80 placeholder:text-white/50
-                      px-4 py-3 focus:ring-2 focus:ring-[#0018CA] outline-none"/>
+      <!-- Mensaje de éxito -->
+      <div id="form-status"
+           class="hidden text-center text-sm font-semibold text-[#4CE0D2]">
+        ¡Mensaje enviado con éxito!
       </div>
 
-      <!-- honeypot + redirect -->
-      <input type="text" name="_honey" class="hidden"/>
-      <input type="hidden" name="_redirect" value="/gracias"/>
-
-      <button type="submit"
-              class="w-full rounded-md bg-[#0018CA] py-3 font-semibold text-black
-                     transition hover:brightness-110 active:scale-95">
-        Enviar
+      <!-- Botón enviar -->
+      <button type="submit" id="submit-btn"
+              class="w-full rounded-xl py-3 sm:py-4 font-bold text-base sm:text-lg
+                     bg-gradient-to-r from-[#4CE0D2] via-[#20A4F3] to-[#0018CA]
+                     text-white shadow-lg
+                     hover:from-[#20A4F3] hover:via-[#0018CA] hover:to-[#232ED1]
+                     transform transition-all duration-300
+                     hover:scale-[1.02] active:scale-[0.98]
+                     hover:shadow-2xl hover:shadow-[#4CE0D2]/25
+                     disabled:opacity-50 disabled:cursor-not-allowed">
+        <span class="flex items-center justify-center space-x-2">
+          <span id="btn-text">Enviar</span>
+          <svg id="btn-icon" class="w-4 h-4 sm:w-5 sm:h-5 transform transition-transform duration-300"
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+          </svg>
+        </span>
       </button>
     </form>
   </div>
 </div>
 
+<!-- ─────────────  ESTILOS  ───────────── -->
+<style>
+  @keyframes fade-in      { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slide-up     {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0)    scale(1); }
+  }
+
+  @keyframes pulse-success { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05);} }
+
+  .animate-fade-in       { animation: fade-in 0.3s ease-out; }
+  .animate-slide-up      { animation: slide-up 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  .animate-pulse-success { animation: pulse-success 0.6s ease-in-out; }
+
+  /* Efecto brillo en focus */
+  input:focus, textarea:focus { box-shadow: 0 0 20px rgba(76,224,210,0.15); }
+</style>
+
+<!-- Iframe oculto para envío sin redirección -->
+<iframe id="hidden-iframe" name="hidden-iframe" style="display: none;"></iframe>
+
 <!-- ─────────────  SCRIPT  ───────────── -->
 <script is:inline>
-  // abre cualquier elemento con [data-open="contact-modal"]
-  document.querySelectorAll('[data-open="contact-modal"]')
-          .forEach(btn => btn.addEventListener('click', () =>
-            document.getElementById('contact-modal').classList.remove('hidden')));
+  /* URL de SubmitForm */
+  const actionURL = "https://submit-form.com/wbhJHJbS4";
 
-  // cierra con data-close o clic fuera
-  const modal = document.getElementById('contact-modal');
-  modal.addEventListener('click', e => {
-    if (e.target.dataset.close !== undefined || e.target === modal)
-      modal.classList.add('hidden');
+  // ─── Variables de seguridad ───────────────────────────────────────
+  let formStartTime = 0;
+  let userInteractionCount = 0;
+  let lastSubmissionTime = 0;
+  const MIN_FORM_TIME = 3000; // Mínimo 3 segundos para llenar el formulario
+  const MAX_FORM_TIME = 600000; // Máximo 10 minutos
+  const MIN_TIME_BETWEEN_SUBMISSIONS = 30000; // 30 segundos entre envíos
+
+  // ─── Generar token único ──────────────────────────────────────────
+  function generateToken() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
+  // ─── Inicializar medidas de seguridad ─────────────────────────────
+  function initSecurity() {
+    formStartTime = Date.now();
+    document.getElementById('form-start-time').value = formStartTime;
+    document.getElementById('form-token').value = generateToken();
+    userInteractionCount = 0;
+  }
+
+  // ─── Validar si es humano ─────────────────────────────────────────
+  function validateHuman() {
+    const currentTime = Date.now();
+    const formFillTime = currentTime - formStartTime;
+    const timeSinceLastSubmission = currentTime - lastSubmissionTime;
+
+    // Verificar honeypots
+    const honey = document.querySelector('input[name="_honey"]').value;
+    const emailTrap = document.querySelector('input[name="_email_trap"]').value;
+    const websiteTrap = document.querySelector('input[name="_website"]').value;
+    
+    if (honey || emailTrap || websiteTrap) {
+      console.log('🤖 Bot detectado: honeypot activado');
+      return false;
+    }
+
+    // Verificar tiempo mínimo de llenado
+    if (formFillTime < MIN_FORM_TIME) {
+      console.log('🤖 Bot detectado: formulario llenado muy rápido');
+      return false;
+    }
+
+    // Verificar tiempo máximo (sesión expirada)
+    if (formFillTime > MAX_FORM_TIME) {
+      console.log('⏰ Sesión expirada');
+      return false;
+    }
+
+    // Verificar tiempo entre envíos
+    if (lastSubmissionTime > 0 && timeSinceLastSubmission < MIN_TIME_BETWEEN_SUBMISSIONS) {
+      console.log('🚫 Demasiados envíos seguidos');
+      return false;
+    }
+
+    // Verificar interacciones del usuario
+    if (userInteractionCount < 3) {
+      console.log('🤖 Bot detectado: pocas interacciones');
+      return false;
+    }
+
+    return true;
+  }
+
+  // ─── Abrir modal ──────────────────────────────────────────────────
+  document.querySelectorAll('[data-open="contact-modal"]').forEach(btn =>
+    btn.addEventListener('click', () => {
+      const modal = document.getElementById('contact-modal');
+      modal.classList.remove('hidden');
+      initSecurity(); // Inicializar seguridad cuando se abre el modal
+      /* focus al primer input tras la animación */
+      setTimeout(() => modal.querySelector('input[name="nombre"]')?.focus(), 400);
+    })
+  );
+
+  // ─── Detectar interacciones humanas ───────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputs = document.querySelectorAll('#contact-form input, #contact-form textarea');
+    
+    inputs.forEach(input => {
+      // Contar interacciones reales
+      input.addEventListener('focus', () => userInteractionCount++);
+      input.addEventListener('input', () => userInteractionCount++);
+      input.addEventListener('keydown', () => userInteractionCount++);
+    });
+
+    // Detectar movimiento del mouse
+    document.addEventListener('mousemove', () => userInteractionCount++, { once: true });
   });
 
-  // ESC para cerrar
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') modal.classList.add('hidden');
+  // ─── Cerrar modal por clic fuera / botón / ESC ───────────────────
+  const modal = document.getElementById('contact-modal');
+  modal.addEventListener('click', e => {
+    if (e.target.dataset.close !== undefined || e.target === modal) modal.classList.add('hidden');
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.add('hidden'); });
+
+  // ─── Interceptar submit con validaciones de seguridad ────────────
+  const form      = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const btnText   = document.getElementById('btn-text');
+  const statusBox = document.getElementById('form-status');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Validar si es humano antes de enviar
+    if (!validateHuman()) {
+      btnText.textContent = 'Error de validación';
+      setTimeout(() => {
+        btnText.textContent = 'Enviar';
+      }, 3000);
+      return;
+    }
+    
+    // Efectos visuales inmediatos
+    submitBtn.disabled = true;
+    btnText.textContent = 'Enviando…';
+
+    // Configurar el formulario para enviar al iframe oculto
+    form.target = 'hidden-iframe';
+    form.action = actionURL;
+    form.method = 'POST';
+    
+    // Enviar el formulario
+    form.submit();
+    
+    // Registrar tiempo del último envío
+    lastSubmissionTime = Date.now();
+    
+    // Simular éxito después de un momento
+    setTimeout(() => {
+      statusBox.classList.remove('hidden');
+      statusBox.classList.add('animate-pulse-success');
+      form.reset();
+
+      // Cerrar modal después de 2 segundos
+      setTimeout(() => {
+        statusBox.classList.add('hidden');
+        modal.classList.add('hidden');
+        btnText.textContent = 'Enviar';
+        submitBtn.disabled = false;
+        // Limpiar el target para futuras interacciones
+        form.target = '';
+        // Reinicializar seguridad para próximo uso
+        initSecurity();
+      }, 2000);
+    }, 1000);
   });
 </script>

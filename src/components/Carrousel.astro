@@ -1,24 +1,21 @@
 ---
 import { Image } from 'astro:assets';
 
-/* 1 ▸ recoge todos los ficheros de la carpeta */
 const imageImports = import.meta.glob(
   '../assets/images/*.{jpg,jpeg,png,webp}',
   { eager: true,  import: 'default' }
 );
 
-/* 2 ▸ array ordenado alfabéticamente */
 const images = Object.entries(imageImports)
-            // quita si no te importa el orden
+            
   .map(([_, src], i) => ({ src, alt: `Foto ${i + 1}` }));
 ---
 
-
-<section id="galeria-carrusel" class="py-16 md:py-12 bg-black text-white">
+<section id="galeria-carrusel" class="py-16 md:py-12 bg-blacktext-white">
   <div class="container mx-auto px-2 sm:px-4">
     <div id="horizontal-thumbnails-carousel" class="relative w-full">
 
-      <!-- contenedor principal: ahora SIEMPRE columna -->
+     
       <div class="flex flex-col space-y-4">
 
         <!-- ===== Slider principal ===== -->
@@ -104,55 +101,87 @@ const images = Object.entries(imageImports)
     </div>
   </div>
 
-  <!-- ===== Script idéntico; no hay que tocar nada ===== -->
-  <script is:inline define:vars={{ totalImages: images.length }}>
-    const carouselBody = document.getElementById('carousel-body');
-    const slides = Array.from(carouselBody.querySelectorAll('.carousel-slide'));
-    const paginationContainer = document.getElementById('carousel-pagination-container');
-    const paginationItems = Array.from(paginationContainer.querySelectorAll('.carousel-pagination-item'));
-    const prevButton = document.getElementById('carousel-prev');
-    const nextButton = document.getElementById('carousel-next');
-    let currentIndex = 0;
+ 
+<script is:inline>
+  /* ---------- 1 . CAPTURA NODOS EN EL ORDEN ORIGINAL ---------- */
+  const body   = document.getElementById('carousel-body');
+  const thumbs = document.getElementById('carousel-pagination-container');
+  const slides = [...body.children];                 // NodeList → Array
+  const btns   = [...thumbs.children];
+  const total  = slides.length;
 
-    function showSlide(index) {
-      const prevIndex = currentIndex;
-      currentIndex = (index + totalImages) % totalImages;
+  /* ---------- 2 . CREA UNA LISTA DE ÍNDICES ALEATORIA ---------- */
+  const order = [...Array(total).keys()];            // [0,1,2,…]
+  for (let i = total - 1; i > 0; i--) {              // Fisher–Yates
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  /* order p.ej.: [3,0,4,1,2] */
 
-      // Slides
-      slides[prevIndex].classList.remove('opacity-100', 'z-10');
-      slides[prevIndex].classList.add('opacity-0', 'z-0', 'pointer-events-none');
-      slides[currentIndex].classList.remove('opacity-0', 'z-0', 'pointer-events-none');
-      slides[currentIndex].classList.add('opacity-100', 'z-10');
+  /* ---------- 3 . SINCRONIZA VISUALMENTE LA FILA DE MINIATURAS --*/
+  order.forEach((idx, pos) => {
+    slides[idx].style.order = pos;   // flex-order
+    btns  [idx].style.order = pos;   // la fila <div> usa flex
+  });
 
-      // Thumbnails
-      const prevThumb = paginationItems[prevIndex].querySelector('img');
-      const currThumb = paginationItems[currentIndex].querySelector('img');
-      prevThumb.classList.remove('carousel-active-img:opacity-100', 'opacity-100');
-      prevThumb.classList.add('opacity-50');
-      currThumb.classList.remove('opacity-50');
-      currThumb.classList.add('carousel-active-img:opacity-100', 'opacity-100');
+  /* marca el primero de la lista aleatoria como activo */
+  const first = order[0];
+  slides.forEach((s,i) => {
+    s.classList.toggle('opacity-0',      i !== first);
+    s.classList.toggle('pointer-events-none', i !== first);
+    s.classList.toggle('z-0',            i !== first);
+    s.classList.toggle('opacity-100',    i === first);
+    s.classList.toggle('z-10',           i === first);
+  });
+  btns.forEach((b,i) => {
+    b.dataset.slideIndex = i;                    // índice real del slide
+    b.querySelector('img').classList.toggle('opacity-50', i !== first);
+  });
 
-      // Auto-scroll miniaturas
-      if (paginationContainer.scrollWidth > paginationContainer.clientWidth) {
-       paginationItems[currentIndex].scrollIntoView({
-  behavior: 'smooth',
-  inline: 'nearest',   // solo mueve en X
-  block:  'nearest',   // NO mueve en Y
-});
+  /* ---------- 4 . FUNCIÓN PARA MOSTRAR SIGUIENTE / ANTERIOR ------*/
+  let pointer = 0;                               // posición dentro de order[]
 
-      }
+  function show(dirOrExact){
+    /* dirOrExact = +1 | -1  | número exacto */
+    pointer =
+      typeof dirOrExact === 'number' && (dirOrExact === +1 || dirOrExact === -1)
+        ? (pointer + dirOrExact + total) % total
+        : order.indexOf(dirOrExact);
+
+    const active = order[pointer];               // índice de slide a mostrar
+
+    /* actualiza clases */
+    slides.forEach((s,i) => {
+      const on = i === active;
+      s.classList.toggle('opacity-0',           !on);
+      s.classList.toggle('pointer-events-none', !on);
+      s.classList.toggle('z-0',                 !on);
+      s.classList.toggle('opacity-100',          on);
+      s.classList.toggle('z-10',                 on);
+    });
+    btns.forEach((b,i) => {
+      b.querySelector('img').classList.toggle('opacity-50', i !== active);
+    });
+
+    /* desplaza la fila horizontal sólo si es necesario */
+    if (thumbs.scrollWidth > thumbs.clientWidth) {
+      btns[active].scrollIntoView({
+        behavior: 'smooth',
+        inline  : 'nearest',
+        block   : 'nearest'      // sin scroll vertical
+      });
     }
+  }
 
-    prevButton.addEventListener('click', () => showSlide(currentIndex - 1));
-    nextButton.addEventListener('click', () => showSlide(currentIndex + 1));
-    paginationItems.forEach(item =>
-      item.addEventListener('click', () => showSlide(parseInt(item.dataset.slideTo, 10)))
-    );
+  /* ---------- 5 . EVENTOS (flechas y miniaturas) -----------------*/
+  document.getElementById('carousel-prev')
+          .addEventListener('click', () => show(-1));
+  document.getElementById('carousel-next')
+          .addEventListener('click', () => show(+1));
+  btns.forEach((b,i) =>
+    b.addEventListener('click', () => show(i))
+  );
+</script>
 
-    // Estado inicial
-    if (paginationItems.length) {
-      paginationItems[0].querySelector('img').classList.remove('opacity-50');
-      paginationItems[0].querySelector('img').classList.add('carousel-active-img:opacity-100', 'opacity-100');
-    }
-  </script>
+
 </section>

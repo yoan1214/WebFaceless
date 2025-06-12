@@ -5,14 +5,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Paleta de marca
         brand: {
-          blue:  '#0556c3', // primario
-          light: '#4a9af6', // hover/acento
-          dark:  '#032962', // fondos oscuros
-          black: '#000206', // casi negro
-          white: '#ffffff', // texto sobre fondos oscuros
+          blue:  '#0556c3',
+          light: '#4a9af6',
+          dark:  '#032962',
+          black: '#000206',
+          white: '#ffffff',
         },
+      },
+      fontFamily: {
+        'sans': ['Open Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'bebas': ['Bebas Neue', 'cursive'],
       },
     },
   },
